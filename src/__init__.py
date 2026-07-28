@@ -1,0 +1,1 @@
+"""Outils de préparation des images et de modélisation pour le projet."""
