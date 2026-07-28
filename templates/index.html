@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Analyse feuille de maïs</title>
+    <style>
+        :root {
+            --dark-green: #2c5234;
+            --light-green: #4a7c59;
+            --gray: #5a6670;
+            --light-gray: #f5f7fa;
+            --border: #d1d9e6;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: var(--light-gray);
+            color: #212529;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 1.8rem;
+            color: var(--dark-green);
+        }
+
+        .header p {
+            margin: 0;
+            color: var(--gray);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .panel h2 {
+            margin: 0 0 16px;
+            font-size: 1.2rem;
+            color: var(--dark-green);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .info-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--dark-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--light-green);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--dark-green);
+            color: var(--dark-green);
+        }
+
+        .btn-outline:hover {
+            background: var(--light-green);
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--dark-green);
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+        }
+
+        .alert-info {
+            background: #e7f3ff;
+            border: 1px solid #b8daff;
+            color: #004085;
+        }
+
+        .image-preview {
+            margin-top: 16px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .result {
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .result.sain {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .result.malade {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 10px 8px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--light-gray);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Analyse de feuille de maïs</h1>
+            <p>Détection automatique des feuilles saines ou malades</p>
+        </div>
+
+        <div class="main-content">
+            <div class="panel">
+                <h2>Entraînement</h2>
+                <form method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="retrain">
+                    <button class="btn btn-primary" type="submit">Entraîner le modèle</button>
+                </form>
+
+                {% if training_state %}
+                <div style="margin-top: 20px;">
+                    <div class="info-row">
+                        <span class="info-label">Dataset</span>
+                        <span class="info-value">{{ training_state.dataset_size }} images</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Modèle retenu</span>
+                        <span class="info-value">{{ training_state.best_model_name }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Precision</span>
+                        <span class="info-value">{{ '%.1f'|format(training_state.best_report.precision * 100) }}%</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Recall</span>
+                        <span class="info-value">{{ '%.1f'|format(training_state.best_report.recall * 100) }}%</span>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 24px;">Comparaison des modèles</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Modèle</th>
+                            <th>Accuracy</th>
+                            <th>Precision</th>
+                            <th>Recall</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in training_state.reports %}
+                        <tr>
+                            <td>{{ report.name }}</td>
+                            <td>{{ '%.1f'|format(report.accuracy * 100) }}%</td>
+                            <td>{{ '%.1f'|format(report.precision * 100) }}%</td>
+                            <td>{{ '%.1f'|format(report.recall * 100) }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+
+            <div class="panel">
+                <h2>Diagnostic</h2>
+                
+                {% if message %}
+                <div class="alert alert-info">{{ message }}</div>
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="leaf_image">Image de la feuille</label>
+                        <input type="file" id="leaf_image" name="leaf_image" class="form-control" accept="image/*" required>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Analyser</button>
+                </form>
+
+                {% if uploaded_image %}
+                <div class="image-preview">
+                    <img src="{{ uploaded_image }}" alt="Image uploadée">
+                </div>
+                {% endif %}
+
+                {% if prediction %}
+                <div class="result {% if prediction == 'Feuille malade' %}malade{% else %}sain{% endif %}">
+                    <strong>Verdict:</strong> {{ prediction }}
+                    {% if confidence is not none %}
+                    <div style="margin-top: 6px;">Confiance: {{ '%.1f'|format(confidence * 100) }}%</div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <a href="/gallery" class="btn btn-outline" style="margin-top: 16px;">Galerie des diagnostics</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
