@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "image_name": "mais_sain.webp",
+    "prediction": "Feuille saine",
+    "confidence": 1.0,
+    "model_name": "Arbre Max-Minority",
+    "image_path": "/static/history/upload_585c2027.webp",
+    "timestamp": "2026-07-09 20:43:15"
+  },
+  {
+    "id": 2,
+    "image_name": "images.jpeg",
+    "prediction": "Feuille malade",
+    "confidence": 0.8,
+    "model_name": "Arbre Max-Minority",
+    "image_path": "/static/history/upload_eb0fee09.jpeg",
+    "timestamp": "2026-07-09 20:53:19"
+  },
+  {
+    "id": 3,
+    "image_name": "bobo.jpeg",
+    "prediction": "Feuille malade",
+    "confidence": 1.0,
+    "model_name": "Arbre Max-Minority",
+    "image_path": "/static/history/upload_a8512f63.jpeg",
+    "timestamp": "2026-07-09 21:08:21"
+  },
+  {
+    "id": 4,
+    "image_name": "feuille.jpeg",
+    "prediction": "Feuille malade",
+    "confidence": 1.0,
+    "model_name": "Decision Tree (sklearn)",
+    "image_path": "/static/history/upload_a97fe220.jpeg",
+    "timestamp": "2026-07-09 21:32:42"
+  },
+  {
+    "id": 5,
+    "image_name": "chlorose.jpeg",
+    "prediction": "Feuille malade",
+    "confidence": 0.8333333333333334,
+    "model_name": "Arbre Max-Minority",
+    "image_path": "/static/history/upload_11c8334a.jpeg",
+    "timestamp": "2026-07-10 08:35:19"
+  },
+  {
+    "id": 6,
+    "image_name": "mavo.jpeg",
+    "prediction": "Feuille malade",
+    "confidence": 0.9090909090909091,
+    "model_name": "Arbre Max-Minority",
+    "image_path": "/static/history/upload_e61380d3.jpeg",
+    "timestamp": "2026-07-10 08:46:32"
+  }
+]
